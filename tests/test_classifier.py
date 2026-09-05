@@ -12,13 +12,23 @@ class CloudServiceClassifierTest(unittest.TestCase):
         self.classifier = CloudServiceClassifier()
 
     def test_classifies_each_cloud_model(self) -> None:
-        examples = {
-            CloudModel.IAAS: "Necesito una virtual machine con storage y una red privada",
-            CloudModel.PAAS: "Quiero deployar una web app en una plataforma con runtime administrado",
-            CloudModel.SAAS: "Una suscripcion de CRM y correo lista para usar",
-            CloudModel.FAAS: "Una funcion serverless activada por un evento",
-        }
-        for expected_model, text in examples.items():
+        examples = [
+            (
+                CloudModel.IAAS,
+                "Necesito una virtual machine con storage y una red privada",
+            ),
+            (
+                CloudModel.PAAS,
+                "Quiero deployar una web app en una plataforma con runtime administrado",
+            ),
+            (CloudModel.SAAS, "Una suscripcion de CRM y correo lista para usar"),
+            (CloudModel.FAAS, "Una funcion serverless activada por un evento"),
+            (
+                CloudModel.PAAS,
+                "Una aplicacion web con hosting y base de datos administrada",
+            ),
+        ]
+        for expected_model, text in examples:
             with self.subTest(expected_model=expected_model):
                 self.assertEqual(self.classifier.classify(text).model, expected_model)
 
